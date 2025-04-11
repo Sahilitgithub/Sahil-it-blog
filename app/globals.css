@@ -2,20 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Define custom CSS variables for easy maintenance and theming */
+:root {                     /* Black color */                /* Active state color */
+  --color-background: #000119;           /* Main background color */
+  --stroke-width: calc(2em / 16);       /* Dynamic stroke width */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: yellow;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.box-shadow{
+  box-shadow: 1px 1px 10px rgba(2, 0, 36, 1);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to right, #172764, #000119);
+}
+
+.header {
+  width: 100%;
+  color: white;
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, #03221F 49%, #000119 79%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Brand name styling of header */
+.brandName{
+  background-clip: text; /* Clip background to text */
+  background-image: linear-gradient(to right, #09f1b8, #00a2ff, #ff00d2, #fed90f); /* Gradient text */
+  color: var(--color-background); /* Color from CSS variable */
+  letter-spacing: 2px; /* Spacing between letters */
+  padding: calc(--stroke-width / 2); /* Padding based on stroke width */
+  -webkit-text-stroke-color: transparent; /* Transparent stroke color */
+  -webkit-text-stroke-width: var(--stroke-width); /* Stroke width from CSS variable */
+}
+
+/* Table Css Style */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
