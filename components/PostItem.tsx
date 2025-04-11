@@ -11,7 +11,7 @@ interface PostsProps {
 const PostsItem = ({posts}: PostsProps) => {
   return (
     <article>
-      <Link href={`/post/${posts.id}`}>
+      <Link href={`/post/${posts.slug}`}>
       <div className='bg-[#001021] box-shadow text-white rounded-md p-2'>
       <figure>
         <Image src={posts.image} alt='Posts item' className='w-full h-[200px] rounded-md' width={500} height={400} />

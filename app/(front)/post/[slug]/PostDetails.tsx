@@ -7,7 +7,7 @@ interface PostDetailsProps {
 }
 
 const PostDetails = ({ post }: PostDetailsProps) => {
-  console.log("post data ", post);
+  
   return (
     <section className="bg-[#001021] text-white rounded-md p-2">
       <figure className="w-full h-[500px] rounded-md">
