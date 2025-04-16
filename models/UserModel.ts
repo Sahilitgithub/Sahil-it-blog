@@ -1,15 +1,10 @@
 import mongoose from "mongoose";
 
-export interface RegisterSchemaTypes {
-    name: string;
-    email: string;
-    password: string;
-}
-
-const userSchema = new mongoose.Schema<RegisterSchemaTypes>({
-    name: {
+const userSchema = new mongoose.Schema({
+    clerkId: {
         type: String,
         required: true,
+        unique: true,
     },
     email: {
         type: String,
@@ -17,12 +12,22 @@ const userSchema = new mongoose.Schema<RegisterSchemaTypes>({
         unique: true,
         trim: true
     },
-    password: {
+    firstName: {
+        type: String,
+        required: false,
+    },
+    lastName: {
+        type: String,
+        required: false,
+    },
+    username: {
         type: String,
         required: true,
-    }
-
+    },
+    profilePicture: {
+        type: String,
+        required: false,
+    },
 }, {timestamps: true});
-
 
 export const UserModel = mongoose.models?.Users || mongoose.model("Users", userSchema);

@@ -96,7 +96,7 @@ const PostContainer = () => {
       <article className="col-span-3">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 bg-black pb-4 p-2 rounded-md">
           {data.map((item: PostTypes) => (
-            <ProductItem key={item.id} posts={item} />
+            <ProductItem key={item.id} />
           ))}
         </div>
         {/* Paginaiton */}
