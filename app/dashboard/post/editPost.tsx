@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { postsData } from "../AllPost";
+import { postsData } from "./AllPost";
 import { useRouter } from "next/navigation";
 
 const EditPost = ({ paramsId }: { paramsId: string }) => {
   const router = useRouter();
   const post = postsData.find((item) => item.id === Number(paramsId));
   const [postTitle, setPostTitle] = useState(post?.title || "");
-  const [ postSlug, setPostSlug] = useState(post?.slug || "");
+  const [postSlug, setPostSlug] = useState(post?.slug || "");
   const [postDescription, setPostDescription] = useState(
     post?.description || ""
   );
@@ -34,7 +34,9 @@ const EditPost = ({ paramsId }: { paramsId: string }) => {
       category: postCategory,
       latestPost: postLatestPost,
       featuredPost: postFeaturedPost,
-      keywords: Array.isArray(postKeywords) ? postKeywords : postKeywords.split(","),
+      keywords: Array.isArray(postKeywords)
+        ? postKeywords
+        : postKeywords.split(","),
     };
     // Here you would typically send the updated post to your server or API
     console.log("Updated codes: ", updatedPost);
@@ -91,7 +93,7 @@ const EditPost = ({ paramsId }: { paramsId: string }) => {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 my-3">
-        <div>
+          <div>
             <label
               htmlFor="category"
               aria-label="category"
@@ -140,7 +142,7 @@ const EditPost = ({ paramsId }: { paramsId: string }) => {
           </div>
         </div>
         <div className="grid grid-cols-1 my-3">
-        <div>
+          <div>
             <label
               htmlFor="keywords"
               aria-label="Keywords"
@@ -171,10 +173,7 @@ const EditPost = ({ paramsId }: { paramsId: string }) => {
         </div>
 
         <div className="mt-1">
-          <button
-            type="submit"
-            className="bg-stone-700 w-24 p-2 rounded-md"
-          >
+          <button type="submit" className="bg-stone-700 w-24 p-2 rounded-md">
             Update
           </button>
         </div>
