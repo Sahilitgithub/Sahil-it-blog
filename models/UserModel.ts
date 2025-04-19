@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+export interface UserTypes {
+    clerkId: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    username: string;
+    profilePicture?: string;
+    isAdmin?: boolean;
+} 
+
+const userSchema = new mongoose.Schema<UserTypes>({
     clerkId: {
         type: String,
         required: true,
@@ -10,24 +20,28 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        trim: true
     },
-    firstName: {
+    first_name: {
         type: String,
-        required: false,
+        required: true,
     },
-    lastName: {
+    last_name: {
         type: String,
-        required: false,
+        required: true,
     },
     username: {
         type: String,
         required: true,
+        unique: true,
     },
     profilePicture: {
         type: String,
         required: false,
     },
-}, {timestamps: true});
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    }
+}, { timestamps: true });
 
-export const UserModel = mongoose.models?.Users || mongoose.model("Users", userSchema);
+export const UserModel = mongoose.models?.User || mongoose.model("User", userSchema);
