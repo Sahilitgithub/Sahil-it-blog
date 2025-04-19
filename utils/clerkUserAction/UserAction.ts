@@ -13,7 +13,7 @@ interface CreateOrUpdateUserParams {
 }
 
 // It uses the Clerk API to create or update a user based on the provided parameters.
-export const createOrUpdateUser = async ({
+export const createOrUpdateUser = async ({id,
   first_name,
   last_name,
   username,
