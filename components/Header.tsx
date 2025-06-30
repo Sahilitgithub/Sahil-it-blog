@@ -1,9 +1,9 @@
 "use client";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, } from "@clerk/nextjs";
+// import { clerkClient } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton, SignInButton} from "@clerk/nextjs";
 
 const Header = () => {
-
   return (
     <header className="header px-5 md:px-16 py-4">
       {/* Logo part */}
@@ -17,24 +17,24 @@ const Header = () => {
         </Link>
       </div>
       <nav>
-        <ul className="flex justify-center items-center gap-4 lg:gap-6 text-cyan-600 text-[15px] sm:text-[17px] font-semibold">
-          <li className="hover:text-amber-400 transition-colors">
-            <Link href="/">Home</Link>
-          </li>
-          <li className="hover:text-amber-400 transition-colors">
-            <Link href="/about">About</Link>
-          </li>
-          <li className="hover:text-amber-400 transition-colors">
-            <Link href="/contact">Contact</Link>
-          </li>
-          <li className="flex justify-center items-center hover:text-amber-400 transition-colors">
+        <ul className="flex justify-center items-center gap-4 lg:gap-6 text-white text-[15px] sm:text-[17px] font-semibold">
+          <li className="flex justify-center items-center">
             <SignedIn>
-             <UserButton />
+              {/* <Link href={"user-profile"}>
+              </Link> */}
+                <UserButton />
             </SignedIn>
             <SignedOut>
-              <Link href="/sign-in">
-                <SignInButton />
-              </Link>
+              <SignInButton mode="modal">
+                <button className="bg-purple-600 px-2 py-1 mr-2 sm:mr-4 hover:text-amber-400 transition-colors rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 bg-gradient-to-t from-slate-950">
+                  Sign In
+                </button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <button className="bg-purple-600 px-2 py-1 rounded-md hover:text-amber-400 transition-colors hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 bg-gradient-to-t from-slate-950">
+                  Sign Up
+                </button>
+              </SignUpButton>
             </SignedOut>
           </li>
         </ul>

@@ -1,76 +1,62 @@
-import { createOrUpdateUser, deleteUser } from "@/utils/clerkUserAction/UserAction";
-import { clerkClient } from "@clerk/nextjs/server";
-import { verifyWebhook } from "@clerk/nextjs/webhooks";
+// // app/api/webhooks/clerk/route.ts
+// import { headers } from 'next/headers'
+// import { Webhook } from 'svix'
+// import { prisma } from '@/utils/prisma/prismaClient'
 
-export async function POST(req: Request) {
+// const CLERK_WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET || ''
+
+// export async function POST(req: Request) {
+//   const payload = await req.text()
+//   const headerPayload = Object.fromEntries(headers())
+
+//   const wh = new Webhook(CLERK_WEBHOOK_SECRET)
+
+//   let evt: any
+
+//   try {
+//     evt = wh.verify(payload, headerPayload)
+//   } catch (err) {
+//     return new Response('Webhook error', { status: 400 })
+//   }
+
+//   const { type, data } = evt
+
+//   if (type === 'user.created') {
+//     const { id, email_addresses, first_name, last_name } = data
+
+//     const email = email_addresses[0]?.email_address
+
+//     await prisma.user.upsert({
+//       where: { email },
+//       update: {},
+//       create: {
+//         name: `${first_name ?? ''} ${last_name ?? ''}`.trim(),
+//         email,
+//       },
+//     })
+//   }
+
+//   return new Response('OK', { status: 200 })
+// }
+
+
+import { verifyWebhook } from '@clerk/nextjs/webhooks'
+import { NextRequest } from 'next/server'
+
+export async function POST(req: NextRequest) {
   try {
-    const evt = await verifyWebhook(req);
+    const evt = await verifyWebhook(req)
 
     // Do something with payload
     // For this guide, log payload to console
-    const { id } = evt?.data;
-    const eventType = evt?.type;
-    console.log(
-      `Received webhook with ID ${id} and event type of ${eventType}`
-    );
-    console.log("Webhook payload:", evt.data);
+    const { id } = evt.data
+    const eventType = evt.type
+    console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
+    console.log('Webhook payload:', evt.data)
 
-    if (eventType === "user.created" || eventType === "user.updated") {
-      const { first_name, last_name, username, image_url, email_addresses, id } =
-        evt?.data;
-
-      try {
-        const user = await createOrUpdateUser({
-          id,
-          first_name: first_name ?? "",
-          last_name: last_name ?? "",
-          username: username ?? "",
-          image_url,
-          email_addresses,
-        });
-       
-        if(user && eventType === "user.created"){
-          try {
-            // Update the public metadata of the user in Clerk
-            const client = await clerkClient(); //Get the actual client
-            await client.users.updateUserMetadata(id, {
-              publicMetadata: {
-                userMongodbId: user._id,
-                isAdmin: user.isAdmin,
-              },
-            })
-          } catch (error: unknown) {
-            console.error("Error updating clerk user public metadata:", error);
-            
-          }
-        }
-
-      } catch (error: unknown) {
-        console.error("Error creating or updating clerk user:", error);
-        return new Response("Error occured while create and updating user", { status: 400 });
-      }
-    }
-
-    // Delete user if condition
-    if(eventType === "user.deleted") {
-      const { id } = evt?.data;
-      try {
-        if (id) {
-          await deleteUser(id);
-        } else {
-          console.error("Error: User ID is undefined.");
-          return new Response("User ID is undefined", { status: 400 });
-        }
-      } catch (error: unknown) {
-        console.error("Error deleting user:", error);
-        return new Response("Error occured while deleting user", { status: 400 });
-      }
-
-    }
-
-    return new Response("Webhook received", { status: 200 });
+    return new Response('Webhook received', { status: 200 })
   } catch (err) {
-    console.error("Error verifying webhook:", err);
-    return new Response("Error verifying webhook", { status: 400 });
+    console.error('Error verifying webhook:', err)
+    return new Response('Error verifying webhook', { status: 400 })
   }
 }

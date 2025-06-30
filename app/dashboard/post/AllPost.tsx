@@ -23,7 +23,14 @@ export const postsData = [
     category: "Latest Posts",
     latestPost: false,
     featuredPost: false,
-    keywords: ["latest post", "post one", "post two", "post three", "post four", "post five"],
+    keywords: [
+      "latest post",
+      "post one",
+      "post two",
+      "post three",
+      "post four",
+      "post five",
+    ],
   },
 
   {
@@ -34,7 +41,14 @@ export const postsData = [
     category: "Latest Posts",
     latestPost: false,
     featuredPost: false,
-    keywords: ["latest post", "post one", "post two", "post three", "post four", "post five"],
+    keywords: [
+      "latest post",
+      "post one",
+      "post two",
+      "post three",
+      "post four",
+      "post five",
+    ],
   },
   {
     id: 3,
@@ -44,7 +58,14 @@ export const postsData = [
     category: "Latest Posts",
     latestPost: false,
     featuredPost: false,
-    keywords: ["latest post", "post one", "post two", "post three", "post four", "post five"],
+    keywords: [
+      "latest post",
+      "post one",
+      "post two",
+      "post three",
+      "post four",
+      "post five",
+    ],
   },
   {
     id: 4,
@@ -54,25 +75,48 @@ export const postsData = [
     category: "Latest Posts",
     latestPost: false,
     featuredPost: false,
-    keywords: ["latest post", "post one", "post two", "post three", "post four", "post five"],
+    keywords: [
+      "latest post",
+      "post one",
+      "post two",
+      "post three",
+      "post four",
+      "post five",
+    ],
+  },
+  {
+    id: 5,
+    title: "this is post number four",
+    slug: "5",
+    description: "o kira o kira modu modu post description",
+    category: "Latest Posts",
+    latestPost: false,
+    featuredPost: false,
+    keywords: [
+      "latest post",
+      "post one",
+      "post two",
+      "post three",
+      "post four",
+      "post five",
+    ],
   },
 ];
 
 const AllPost = () => {
+  const [posts, setPosts] = useState<PostTypes[]>(postsData);
 
- const [posts, setPosts] = useState<PostTypes[]>(postsData);
- 
- const deletePost = (id: number): void => {
-    setPosts((prev) => prev.filter(post => post.id !== id))
- }
+  const deletePost = (id: number): void => {
+    setPosts((prev) => prev.filter((post) => post.id !== id));
+  };
 
   return (
     <div>
       <h1 className="text-[15px] sm:text-[17px] bg-slate-950 p-2 rounded-md">
-        All Posts(10)
+        All Posts({posts.length})
       </h1>
       <div className="bg-slate-950 p-2 py-6 rounded-md overflow-x-auto">
-        <table className="">
+        <table className="text-center">
           <thead className="bg-slate-800 rounded-lg p-2">
             <tr>
               <th>Id</th>
@@ -97,7 +141,11 @@ const AllPost = () => {
                     <Link href={`/dashboard/post/${post.id}`}>Edit</Link>
                   </td>
                   <td>
-                    <button type="button" onClick={() => deletePost(post.id)} className="flex justify-center items-center">
+                    <button
+                      type="button"
+                      onClick={() => deletePost(post.id)}
+                      className="inline-block"
+                    >
                       <Trash2 size={20} />
                     </button>
                   </td>

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { postsData } from "./AllPost";
+import { postsData } from "../AllPost";
 import { useRouter } from "next/navigation";
 
 const EditPost = ({ paramsId }: { paramsId: string }) => {

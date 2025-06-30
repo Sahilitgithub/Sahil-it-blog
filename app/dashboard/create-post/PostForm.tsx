@@ -1,156 +1,123 @@
-"use client";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { PostTypes } from "../post/AllPost";
+import React from "react";
 
 const PostForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-  } = useForm<PostTypes>({
-    defaultValues: {
-      title: "",
-      slug: "",
-      description: "",
-      keywords: [],
-      category: "",
-      latestPost: false,
-      featuredPost: false,
-    },
-  });
-
-  const formSubmit: SubmitHandler<PostTypes> = () => {};
   return (
-    <section>
+    <div>
       <h1 className="text-[15px] sm:text-[17px] bg-slate-950 p-2 rounded-md">
-        Create new post
+        Create Post
       </h1>
-      <form
-        onSubmit={handleSubmit(formSubmit)}
-        className="w-full p-4 bg-slate-950 rounded-md"
-      >
-        <div className="my-3 grid grid-cols-1 sm:grid-cols-2 items-center gap-2 text-[13px] sm:text-[15px]">
-          <div>
-            <input
-              type="text"
-              placeholder="Title"
-              {...register("title", {
-                required: "Title is required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.title?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.title.message}
-              </span>
-            )}
+      <div className="bg-slate-950 rounded-md p-2 text-white">
+        <form>
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+            {/* Title And Slug/Url Part */}
+            <div>
+              <label
+                htmlFor="title"
+                area-label="title"
+                className="text-[15px] sm:text[17px]"
+              >
+                Title
+              </label>
+              <input
+                type="text"
+                placeholder="Post Title"
+                className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="slug"
+                area-label="Slug"
+                className="text-[15px] sm:text[17px]"
+              >
+                Slug/Url
+              </label>
+              <input
+                type="text"
+                placeholder="Post Slug"
+                className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+              />
+            </div>
           </div>
+          {/* Featured And Latest Post Part */}
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 my-2">
+              <div className="">
+                <label
+                  htmlFor="slug"
+                  area-label="Slug"
+                  className="text-[15px] sm:text[17px]"
+                >
+                  Featured/Latest Post
+                </label>
+                <select className="w-full border bg-slate-900 border-slate-300 rounded-md p-[10.5px] focus:outline-none focus:border-slate-500">
+                  <option value="default">Default</option>
+                  <option value="Latest Post">Latest Post</option>
+                  <option value="Featured Post">Featured Post</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="slug"
+                  area-label="Slug"
+                  className="text-[15px] sm:text[17px]"
+                >
+                  Slug/Url
+                </label>
+                <input
+                  type="text"
+                  placeholder="Post Slug"
+                  className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+                />
+              </div>
+            </div>
+          {/* keywords And Tags Part */}
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 my-2">
+            <div>
+              <label
+                htmlFor="keywords"
+                area-label="keywords"
+                className="text-[15px] sm:text[17px]"
+              >
+                Keywords
+              </label>
+              <input
+                type="text"
+                placeholder="Post Keywords"
+                className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+              />
+            </div>
+            <div className="my-3">
+              <label
+                htmlFor="post Primary Image"
+                area-label="post Primary Image"
+                className="text-[15px] sm:text[17px]"
+              >
+                Primary Image
+              </label>
+              <input
+                type="file"
+                placeholder="Post Primary Image"
+                className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+              />
+            </div>
+            </div>
+          {/* Description Part */}
           <div>
-            <input
-              type="text"
-              placeholder="Slug/Url"
-              {...register("slug", {
-                required: "Slug is required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.slug?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.slug.message}
-              </span>
-            )}
+            <label
+              htmlFor="description"
+              area-label="description"
+              className="text-[15px] sm:text[17px]"
+            >
+              Description
+            </label>
+            <textarea
+              placeholder="Post Description"
+              className="w-full border bg-slate-900 border-slate-300 rounded-md p-2 focus:outline-none focus:border-slate-500"
+            ></textarea>
           </div>
-        </div>
-        <div className="my-3 grid grid-cols-1 sm:grid-cols-2 items-center gap-2 text-[13px] sm:text-[15px]">
-          <div>
-            <input
-              type="text"
-              placeholder="Latest Post"
-              {...register("latestPost", {
-                required: "Latest Post is required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.latestPost?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.latestPost.message}
-              </span>
-            )}
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Featured Post"
-              {...register("featuredPost", {
-                required: "Featured Post is required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.featuredPost?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.featuredPost.message}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="my-3 grid grid-cols-1 sm:grid-cols-2 items-center gap-2 text-[13px] sm:text-[15px]">
-          <div>
-            <input
-              type="text"
-              placeholder="Keyword"
-              {...register("keywords", {
-                required: "Keywords are required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.keywords?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.keywords.message}
-              </span>
-            )}
-          </div>
-
-          <div>
-            <input
-              type="text"
-              placeholder="Category"
-              {...register("category", {
-                required: "Category is required",
-              })}
-              className="w-full h-full p-3 rounded-md bg-slate-800"
-            />
-            {errors.category?.message && (
-              <span className="text-[12px] sm:text-[13px] text-red-800">
-                {errors.category.message}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="mt-3 text-[13px] sm:text-[15px]">
-          <textarea
-            placeholder="Description"
-            {...register("description", {
-              required: "Description is required",
-            })}
-            className="w-full h-60 p-3 rounded-md bg-slate-800"
-          />
-          {errors.description?.message && (
-            <span className="text-[12px] sm:text-[13px] text-red-800">
-              {errors.description.message}
-            </span>
-          )}
-        </div>
-        <div className="mt-2 text-[13px] sm:text-[15px]">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-blue-600 text-black text-[15px] sm:text-[16px] w-24 p-2 rounded-md"
-          >
-            {isSubmitting ? "Creating..." : "Create"}
-          </button>
-        </div>
-      </form>
-    </section>
+        </form>
+      </div>
+    </div>
   );
 };
 
