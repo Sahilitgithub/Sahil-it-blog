@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { prisma } from "@/utils/prisma/prismaClient";
 
 export async function POST(req: Request) {
-  const secret = process.env.CLERK_WEBHOOK_SIGNING_SECRET;
+  const secret = process.env.SIGNING_SECRET;
   if (!secret) return new Response("Webhook secret is not founded", { status: 500 });
 
   const wh = new Webhook(secret);
