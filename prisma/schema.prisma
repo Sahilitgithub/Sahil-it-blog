@@ -18,7 +18,7 @@ model User {
   email    String   @unique
   password String
   image_url String?
-  clerkId String? @unique
+  clerkId String @unique
   role     Role     @default(User)
   posts    Post[]
   comments Comment[]
@@ -26,16 +26,14 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// First we have to new changing data npx prisma db push
-
 model Post {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   slug        String    @unique
   description String
   category    String?
-  featured    Boolean?  @default(false)
-  latestPost  Boolean?  @default(false)
+  featured    String?
+  keywords    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -52,3 +50,6 @@ model Comment {
   userId  String   @db.ObjectId
   createdAt DateTime @default(now())
 }
+
+
+// how to use clerk with prisma and mongodb by update and deleting user and how to use Role Based Access Control system with clerk and prisma mongodb in nextjs app router

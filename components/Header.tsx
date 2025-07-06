@@ -1,6 +1,5 @@
 "use client";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, } from "@clerk/nextjs";
-// import { clerkClient } from "@clerk/nextjs/server";
 import Link from "next/link";
 
 const Header = () => {
@@ -19,9 +18,8 @@ const Header = () => {
       <nav>
         <ul className="flex justify-center items-center gap-4 lg:gap-6 text-white text-[15px] sm:text-[17px] font-semibold">
           <li className="flex justify-center items-center">
+            
             <SignedIn>
-              {/* <Link href={"user-profile"}>
-              </Link> */}
                 <UserButton />
             </SignedIn>
             <SignedOut>
