@@ -6,7 +6,7 @@ const PostPage = async () => {
   // Get all posts from prisma via mongodb
   const posts = await getPosts()
   return (
-    <section className="px-1 sm:px-2 p-2 mb-20">
+    <section className="px-1 sm:px-2 p-2 mb-20 min-h-screen">
       <AllPost posts={posts} />
     </section>
   )

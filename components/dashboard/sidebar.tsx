@@ -1,4 +1,4 @@
-import { FilePlus, House, LogOut, Rss } from "lucide-react";
+import { FilePlus, House, Rss, User } from "lucide-react";
 import MenuLinks from "./menuLinks";
 
 const menuItems = [
@@ -15,14 +15,14 @@ const menuItems = [
         icon: <Rss size={20} />,
       },
       {
+        title: "Users",
+        path: "/dashboard/users",
+        icon: <User size={20} />,
+      },
+      {
         title: "Create New",
         path: "/dashboard/create-post",
         icon: <FilePlus size={20} />,
-      },
-      {
-        title: "Logout",
-        path: "/dashboard/logout",
-        icon: <LogOut size={20} />,
       },
     ],
   },

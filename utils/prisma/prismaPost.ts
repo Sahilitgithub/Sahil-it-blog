@@ -1,22 +1,22 @@
 import { PrismaClient, Post } from "@prisma/client";
 import { Prisma } from "@prisma/client";
+import { cache } from "react";
+
 const prisma = new PrismaClient();
 
-// Get all post
-export const getPosts = async () => {
-  const posts = await prisma.post.findMany();
-  return posts;
-};
+// ✅ Cached: Get all posts
+export const getPosts = cache(async () => {
+  return await prisma.post.findMany();
+});
 
-// Get a post by slug
-export const getPostBySlug = async (slug: string) => {
-  const post = await prisma.post.findUnique({
+// ✅ Cached: Get post by slug
+export const getPostBySlug = cache(async (slug: string) => {
+  return await prisma.post.findUnique({
     where: { slug },
   });
-  return post;
-};
+});
 
-// 🔍 Search blog posts by search query and category all posts
+// ❌ NOT Cached: Search function should be dynamic
 interface SearchFilterOptions {
   query?: string;
   category?: string;
@@ -35,8 +35,8 @@ export const searchFilter = async ({
   if (query) {
     filters.push({
       OR: [
-        { title: { contains: query, mode: "insensitive" as const } },
-        { description: { contains: query, mode: "insensitive" as const } },
+        { title: { contains: query, mode: "insensitive" } },
+        { description: { contains: query, mode: "insensitive" } },
       ],
     });
   }
@@ -45,7 +45,7 @@ export const searchFilter = async ({
     filters.push({
       category: {
         equals: category,
-        mode: "insensitive" as const,
+        mode: "insensitive",
       },
     });
   }
@@ -65,52 +65,33 @@ export const searchFilter = async ({
   return { posts, total };
 };
 
-
-// Get all post's category list
-export const getPostsCategory = async () => {
+// ✅ Cached: Get all categories
+export const getPostsCategory = cache(async () => {
   const posts = await prisma.post.findMany({
-    select: {
-      category: true,
-    },
-    where: {
-      category: {
-        not: null,
-      },
-    },
+    select: { category: true },
+    where: { category: { not: null } },
   });
 
-  // Extract and deduplicate category strings
-  const categories = [
-    ...new Set(posts.map((post) => post.category)),
-  ] as string[];
+  const categories = [...new Set(posts.map((post) => post.category))] as string[];
   return categories;
-};
+});
 
-/// Get only latest post
-export const getSpecificPost = async () => {
+// ✅ Cached: Get latest & featured posts
+export const getSpecificPost = cache(async () => {
   const latestPost = await prisma.post.findMany({
-    where: {
-      featured: "Latest Post",
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+    where: { featured: "Latest Post" },
+    orderBy: { createdAt: "desc" },
   });
 
   const featuredPost = await prisma.post.findMany({
-    where: {
-      featured: "Featured Post",
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
+    where: { featured: "Featured Post" },
+    orderBy: { createdAt: "desc" },
   });
 
   return { latestPost, featuredPost };
-};
+});
 
-// Get all Users
-export const getUsers = async () => {
-  const users = await prisma.user.findMany();
-  return users;
-};
+// ✅ Cached: Get all users
+export const getUsers = cache(async () => {
+  return await prisma.user.findMany();
+});

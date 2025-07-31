@@ -44,7 +44,7 @@ const AllPost = ({posts}: {posts: PostTypes[]}) => {
         All Posts({postsData.length})
       </h1>
       {/* Table of post */}
-      <div className="bg-slate-950 p-2 py-6 rounded-md overflow-x-auto">
+      <div className="bg-slate-950 p-2 py-6 rounded-md h-[300px] overflow-x-auto">
         <table className="text-center">
           <thead className="bg-slate-800 rounded-lg p-2">
             <tr>

@@ -29,7 +29,7 @@ const Header = () => {
       <nav>
         <ul className="flex justify-center items-center gap-4 lg:gap-6 text-white text-[15px] sm:text-[17px] font-semibold">
           {isSignedIn && sessionClaims?.metadata.role === "admin" && (
-            <li className="flex justify-center items-center text-xs">
+            <li className="flex justify-center items-center text-[16px]">
               <Link href={"/dashboard"}>Dashboard</Link>
             </li>
           )}

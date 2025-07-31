@@ -46,7 +46,7 @@ export async function AppTotalUsersChart({ users }: { users: UserProps[] }) {
                 </p>
               </div>
               <div>
-                <p className="text-sm bg-green-800 rounded-md capitalize inline-block px-2">{user.publicMetadata?.role as string}</p>
+                <p className="text-sm bg-green-800 rounded-md capitalize inline-block px-2">{user.publicMetadata?.role as string || "User"}</p>
               </div>
             </div>
             {/* Image Name And Date End */}
