@@ -34,6 +34,7 @@ model Post {
   category    String?
   featured    String?
   keywords    String?
+  image       String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -51,5 +52,10 @@ model Comment {
   createdAt DateTime @default(now())
 }
 
-
-// how to use clerk with prisma and mongodb by update and deleting user and how to use Role Based Access Control system with clerk and prisma mongodb in nextjs app router
+model Visitors {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userAgent String?
+  device    String   // "desktop" or "mobile"
+  userId    String? // Clerk user Id
+  createdAt DateTime @default(now())
+}

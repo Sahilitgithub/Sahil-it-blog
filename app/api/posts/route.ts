@@ -1,50 +1,55 @@
 import { prisma } from "@/utils/prisma/prismaClient";
+import { createUniqueSlug } from "@/utils/prisma/uniqueSlug";
 import { auth } from "@clerk/nextjs/server";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
+// Create a new post
 export const POST = async (request: NextRequest) => {
   try {
-    const { userId: clerkId } = await auth(); // Await auth() to get userId
-    if (!clerkId) {
-      return NextResponse.json({ message: "Clerk user unauthorized" }, { status: 401 });
-    }
+    const {
+    title,
+    slug,
+    description,
+    category,
+    featured,
+    keywords,
+    image,
+  }: {
+    title: string;
+    slug: string;
+    description: string;
+    category?: string;
+    featured?: string;
+    keywords?: string[];
+    image?: string;
+  } = await request.json();
 
-    const { title, slug, description, category, featured, keywords } = await request.json();
+  const { userId: clerkId } = await auth();
+  if (!clerkId) throw new Error("User not authenticated");
 
-    // ✅ Use the Clerk ID to find the user in your DB
-    const existingUser = await prisma.user.findUnique({
-      where: { clerkId },
-    });
+  const user = await prisma.user.findUnique({ where: { clerkId } });
+  if (!user) throw new Error("User not found");
 
-    if (!existingUser) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
+  const finalSlug = await createUniqueSlug(slug);
 
-    // ❗️Don't use the client-passed `userId` for `connect` (use DB ID from `existingUser`)
-    const newPost = await prisma.post.create({
-      data: {
-        title,
-        slug,
-        description,
-        category,
-        featured: featured,
-        keywords: Array.isArray(keywords) ? keywords.join(", ") : keywords || "",
-        user: {
-          connect: {
-            id: existingUser.id, // Use server-trusted user ID
-          },
-        },
+  const post = await prisma.post.create({
+    data: {
+      title,
+      slug: finalSlug,
+      description,
+      category,
+      featured,
+      image,
+      keywords: keywords?.join(", ") ?? "",
+      user: {
+        connect: { id: user.id },
       },
-    });
+    },
+  });
 
-    return NextResponse.json({ data: newPost }, { status: 201 });
-  } catch (err) {
-    console.error("Post creation error:", err);
-    return NextResponse.json(
-      {
-        error: err instanceof Error ? err.message : "Unknown error",
-      },
-      { status: 500 }
-    );
+  return Response.json(post, {status: 200});
+  } catch (error: unknown) {
+    console.log("Post Creating Error", error)
+    return Response.json("Internal Server Error", {status: 500})
   }
 };

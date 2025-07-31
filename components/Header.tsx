@@ -1,8 +1,19 @@
 "use client";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton, } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  useAuth,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 import Link from "next/link";
 
 const Header = () => {
+  const { isSignedIn } = useUser();
+  const { sessionClaims } = useAuth();
+  
   return (
     <header className="header px-5 md:px-16 py-4">
       {/* Logo part */}
@@ -17,10 +28,15 @@ const Header = () => {
       </div>
       <nav>
         <ul className="flex justify-center items-center gap-4 lg:gap-6 text-white text-[15px] sm:text-[17px] font-semibold">
+          {isSignedIn && sessionClaims?.metadata.role === "admin" && (
+            <li className="flex justify-center items-center text-xs">
+              <Link href={"/dashboard"}>Dashboard</Link>
+            </li>
+          )}
+
           <li className="flex justify-center items-center">
-            
             <SignedIn>
-                <UserButton />
+              <UserButton />
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">

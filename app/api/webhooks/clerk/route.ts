@@ -3,6 +3,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
 import { prisma } from "@/utils/prisma/prismaClient";
 
+// Post users from clerk
 export async function POST(req: Request) {
   const secret = process.env.SIGNING_SECRET;
   if (!secret) return new Response("Webhook secret is not founded", { status: 500 });
@@ -18,7 +19,8 @@ export async function POST(req: Request) {
   }) as WebhookEvent;
 
   if (event.type === "user.created") {
-    const { id, email_addresses, first_name, last_name } = event.data;
+    const { id, email_addresses, first_name, last_name, image_url } = event.data;
+    console.log("image_url: ", event.data.image_url)
     await prisma.user.upsert({
       where: { clerkId: id },
       update: {},
@@ -26,7 +28,8 @@ export async function POST(req: Request) {
         clerkId: id,
         email: email_addresses[0].email_address,
         name: `${first_name} ${last_name}`,
-        password: "", // Set a default or generated password as required by your logic
+        password: "123456", // Set a default or generated password as required by your logic
+        image_url: image_url,
       },
     });
   }

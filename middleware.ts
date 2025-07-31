@@ -1,22 +1,41 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+import { NextResponse, userAgent } from "next/server"
 
-const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"])
+const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
+const isAdminRoute = createRouteMatcher(["/dashboard(.*)"])
 
-export default clerkMiddleware(async (auth, req ) => {
-  const { userId, redirectToSignIn } = await auth();
 
-  // if(!userId && !isPublicRoute(req)) {
-  //   // If the user is not authenticated and the route is not public, redirect to sign-in
-  //   // Add custom logic here if needed
-  //   return redirectToSignIn();
-  // }
-});
+export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth()
+  const url = req.nextUrl.pathname;
 
-export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
-};
+  // Protect all routes starting with "/dashboard"
+  if(isAdminRoute(req) && (await auth()).sessionClaims?.metadata?.role !== "admin"){
+    const url = new URL('/', req.url);
+    return NextResponse.redirect(url);
+  }
+
+  const shouldTrack =
+    isPublicRoute(req) ||
+    (!!userId && !url.startsWith("/api") && !url.startsWith("/_next"))
+
+  if (shouldTrack) {
+    const ua = userAgent(req)
+    const isBot = ua.ua.toLowerCase().includes("bot")
+
+    if (!isBot) {
+      const device = ua.device.type === "mobile" ? "mobile" : "desktop"
+
+      // Call API route to log visit
+      await fetch(`${req.nextUrl.origin}/api/log-visit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userAgent: ua.ua,
+          device,
+          userId: userId || null,
+        }),
+      })
+    }
+  }
+})

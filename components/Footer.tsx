@@ -5,11 +5,13 @@ const Footer = () => {
   return (
     <footer className="w-full px-3 md:px-10 bg-black text-white p-5">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* About Part */}
         <div className="bg-slate-900 rounded-md p-3">
           <h2 className="text-[17px] lg:text-[20px] text-green-700 font-semibold">About</h2>
           <p className="text-sm">Assalamu Alaikum Everyone, <br/>
           I am the founder of <Link href={`https://www.onlineshopbds.com.bd`} className="text-blue-700 underline font-semibold" >onlineshopbds.com.bd</Link>. Our platform provides valuable insights on how to start and build an online business in Bangladesh, focusing on clothing brands, digital products, and halal ways of making money online. We are dedicated to guiding you towards success while maintaining ethical business practices.</p>
         </div>
+        {/* Guest Post Part */}
         <div className="bg-slate-900 rounded-md p-3">
           <h2 className="text-[17px] lg:text-[20px] text-green-700 font-semibold">Guest Post</h2>
           <ul className="text-sm">
@@ -17,6 +19,7 @@ const Footer = () => {
             <li>&#9742; 01904789786</li>
           </ul>
         </div>
+        {/* Social Media Part */}
         <div className="bg-slate-900 rounded-md p-3">
           <h2 className="text-[17px] lg:text-[20px] text-green-700 font-semibold">Follow Us</h2>
           <ul className="flex justify-start items-center gap-1">

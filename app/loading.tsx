@@ -1,11 +1,12 @@
-import Loader from '@/components/Loader'
-import React from 'react'
+"use client"
+import { LoadingCom } from "@/components/LoadingCom"
 
+// Loading function
 const Loading = () => {
   return (
-    <div>
-      <Loader />
-    </div>
+     <div>
+      <LoadingCom />
+     </div>
   )
 }
 

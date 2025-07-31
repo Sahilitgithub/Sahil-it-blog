@@ -11,7 +11,7 @@ const menuItems = [
       },
       {
         title: "Posts",
-        path: "/dashboard/post",
+        path: "/dashboard/posts",
         icon: <Rss size={20} />,
       },
       {

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Sidebar from "../../components/dashboard/sidebar";
 import { MenuIcon } from "lucide-react";
 
+// Dashboard Layout Function
 const Layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 

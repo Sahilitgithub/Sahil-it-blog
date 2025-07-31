@@ -8,8 +8,22 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['fastly.picsum.photos'],
-  }
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fastly.picsum.photos',
+      },
+      {
+        protocol: 'https',
+        hostname: 'salmon-fancy-mink-707.mypinata.cloud',
+        pathname: '/ipfs/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      }
+    ],
+  },
 };
 
 export default nextConfig;
