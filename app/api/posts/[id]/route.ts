@@ -1,43 +1,40 @@
-import { prisma } from "@/utils/prisma/prismaClient";
+import { prisma } from '@/utils/prisma/prismaClient';
 
-// Delete post function
-export const DELETE = async (
-  request: Request,
-  { params }: { params: { id: string } }
-) => {
+// DELETE
+export async function DELETE(request: Request, { params }: {params: { id: string }}) {
   try {
-    const { id } = params;
     const post = await prisma.post.delete({
-      where: { id },
+      where: { id: params.id },
     });
     return Response.json(post, { status: 200 });
   } catch (error) {
-    console.log("Post deleting error", error);
-    return Response.json({ message: "Internal Server Error" }, { status: 500 });
+    console.error('Post deleting error:', error);
+    return Response.json({ message: 'Internal Server Error' }, { status: 500 });
   }
-};
+}
 
-// Update post function
-export const PUT = async (request: Request, {params}: {params: {id: string}}) => {
+// PUT
+export const PUT = async (request: Request, { params }: {params: { id: string }}) => {
   try {
-    const { id } = params;
     const data = await request.json();
-    
+    const { title, description, slug, image, keywords, category, featured } = data;
     const post = await prisma.post.update({
-      where: { id },
+      where: { id: params.id },
       data: {
-        ...data,
-        keywords: data.keywords
-          ? Array.isArray(data.keywords)
-            ? data.keywords.join(", ")
-            : data.keywords
-          : "",
+        title,
+        description,
+        category,
+        featured: featured,
+        slug,
+        image,
+        keywords: Array.isArray(keywords) ? keywords.join(', ') : keywords || '',
       },
     });
 
     return Response.json({ message: post }, { status: 201 });
   } catch (error) {
-    console.log("Updating post error:", error);
-    return Response.json("Internal Server Error", { status: 500 });
+    console.error('Updating post error:', error);
+    return Response.json({ message: 'Internal Server Error' }, { status: 500 });
   }
-};
+}
+
