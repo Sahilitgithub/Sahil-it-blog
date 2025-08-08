@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^5.1.6",
     "@clerk/nextjs": "^6.23.1",
     "@prisma/client": "^6.10.1",
     "axios": "^1.8.1",

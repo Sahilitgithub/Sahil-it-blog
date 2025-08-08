@@ -54,8 +54,6 @@ const PostContainer: React.FC<PostAndFilterProps> = ({
     fetchPosts();
   }, [query, category, page]); // Depandency array
 
-  console.log("Posts:", posts.map((item) => item.image));
-
   return (
     <section className="grid grid-cols-1 md:grid-cols-4 gap-2 my-1 px-4 md:px-16 min-h-screen">
       {/* SIDEBAR */}
@@ -177,7 +175,6 @@ const PostContainer: React.FC<PostAndFilterProps> = ({
             posts.map((item) => <PostsItem key={item.id} post={item} />)
           )}
         </div>
-
         {/* Pagination */}
         <div className="my-3">
           <PaginantionCom currentPage={page} totalPages={totalPages} onPageChange={setPage} />
