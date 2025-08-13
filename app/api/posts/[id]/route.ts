@@ -1,10 +1,10 @@
 import { prisma } from '@/utils/prisma/prismaClient';
 
 // DELETE
-export async function DELETE(request: Request, { params }: {params: { id: string }}) {
+export async function DELETE(_request: Request, { params }: {params: Promise<{ id: string }>}) {
   try {
     const post = await prisma.post.delete({
-      where: { id: params.id },
+      where: { id: (await params).id },
     });
     return Response.json(post, { status: 200 });
   } catch (error) {
@@ -14,12 +14,12 @@ export async function DELETE(request: Request, { params }: {params: { id: string
 }
 
 // PUT
-export const PUT = async (request: Request, { params }: {params: { id: string }}) => {
+export const PUT = async (request: Request, { params }: {params: Promise<{ id: string }>}) => {
   try {
     const data = await request.json();
     const { title, description, slug, image, keywords, category, featured } = data;
     const post = await prisma.post.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: {
         title,
         description,

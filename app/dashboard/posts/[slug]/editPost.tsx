@@ -23,7 +23,7 @@ interface EditPostProps {
   updatedAt: Date;
   title: string;
   slug: string;
-  image?: string;
+  image?: string | null;
   description: string;
   category?: string | null;
   featured?: string | null;
