@@ -23,7 +23,7 @@ const PostContainer: React.FC<PostAndFilterProps> = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
-  const limit = 6; // Items per page
+  const limit = 8; // Items per page
 
   // Fetch all filtering post useEffect
   useEffect(() => {

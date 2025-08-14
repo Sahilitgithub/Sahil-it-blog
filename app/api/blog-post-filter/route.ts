@@ -10,7 +10,7 @@ export const GET = async (request: Request) => {
     const rawPage = parseInt(searchParams.get("page") || "1", 10);
     const page = isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
 
-    const rawLimit = parseInt(searchParams.get("limit") || "6", 10);
+    const rawLimit = parseInt(searchParams.get("limit") || "8", 10);
     const limit = isNaN(rawLimit) || rawLimit < 1 ? 6 : rawLimit;
 
     const skip = (page - 1) * limit;

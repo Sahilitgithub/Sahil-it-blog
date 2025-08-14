@@ -1,8 +1,8 @@
-import { PrismaClient, Post } from "@prisma/client";
-import { Prisma } from "@prisma/client";
 import { cache } from "react";
+import { prisma } from "./prismaClient";
+import { Post, Prisma } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 // ✅ Cached: Get all posts
 export const getPosts = cache(async () => {
