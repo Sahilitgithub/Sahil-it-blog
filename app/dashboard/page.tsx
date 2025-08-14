@@ -1,5 +1,5 @@
 import { AppTotalUsersChart } from "@/components/dashboard/AppTotalUsersChart";
-import { AppBarChart } from "@/components/dashboard/AppBarChart";
+import  {AppBarChart}  from "@/components/dashboard/AppBarChart";
 import AppPostsChart from "@/components/dashboard/AppPostsChart";
 import { getPosts, getUsers } from "@/utils/prisma/prismaPost";
 
